@@ -1,10 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.server.kmoim.api.mappers.MainMapper">
-	
-	<select id="test" resultType="map">
-		select bno
-		from board
-		where bno = 3
+<mapper namespace="com.server.kmoim.api.mappers.BoardMapper">
+<!-- 
+	<sql id="boardColumns">
+		board_no, user_no, menu_no, board_title, board_content,
+		create_dt, update_dt, board_hit, reply_yn, show_yn
+	</sql>	
+
+ 	<select id="getTotalList" resultType="BoardDto">
+		select
+		m.menu_name, u.user_nick,
+		b.board_title, b.create_dt, b.board_hit
+		from board b
+		left join user u
+		using(user_no)
+		left join menu m
+		using(menu_no)
 	</select>
+-->
+	
+	<select id="getBoardList" parameterType="int" resultType="BoardDto">
+		select
+		m.menu_name, u.user_nick,
+		b.board_title, b.create_dt, b.board_hit
+		from board b
+		left join user u
+		using(user_no)
+		left join menu m
+		using(menu_no)
+		<!-- menu_no가 0이라면 전체글보기 -->
+		<if test = "menuNo != 0">
+			where menu_no = #{menuNo}
+		</if>
+	</select>
+
 </mapper>
