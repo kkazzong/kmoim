@@ -21,7 +21,33 @@ public class BoardServiceImpl implements BoardService {
 //	}
 
 	@Override
-	public List<BoardDto> getBoardList(int menuNo) {
-		return mapper.getBoardList(menuNo);
+	public List<BoardDto> selectList(int menuNo) {
+		return mapper.selectList(menuNo);
 	}
+
+	@Override
+	public BoardDto selectOne(int boardNo) {
+		return mapper.selectOne(boardNo);
+	}
+	
+	@Override
+	public int createBoard(BoardDto dto) {
+		return mapper.createBoard(dto);
+	}
+
+	@Override
+	public int updateBoard(BoardDto dto) {
+		return mapper.updateBoard(dto);
+	}
+
+	@Override
+	public int updateHit(int boardNo) {
+		return mapper.updateHit(boardNo);
+	}
+
+	@Override
+	public int deleteBoard(int boardNo) {
+		return mapper.deleteBoard(boardNo);
+	}
+
 }

@@ -14,7 +14,7 @@ public class BoardDto {
 	private int userNo;			// 사용자번호
 	private int menuNo;			// 메뉴번호
 	private String boardTitle;		// 제목(1000)
-	private String boardContet;	// 내용
+	private String boardContent;	// 내용
 	private String createDt;		// 작성일시
 	private String updateDt;		// 수정일시
 	private int boardHit;			// 조회수

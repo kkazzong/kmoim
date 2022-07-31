@@ -19,7 +19,7 @@
 	</select>
 -->
 	
-	<select id="getBoardList" parameterType="int" resultType="BoardDto">
+	<select id="selectList" parameterType="int" resultType="BoardDto">
 		select
 		m.menu_name, u.user_nick,
 		b.board_title, b.create_dt, b.board_hit
@@ -33,5 +33,55 @@
 			where menu_no = #{menuNo}
 		</if>
 	</select>
+	
+	<select id="selectOne" parameterType="int" resultType="BoardDto">
+		select
+		m.menu_name, u.user_nick,
+		b.board_title, b.create_dt, b.board_hit
+		from board b
+		left join user u
+		using(user_no)
+		left join menu m
+		using(menu_no)
+		where board_no = #{boardNo}
+	</select>
+	
+	<insert id="createBoard" parameterType="BoardDto">
+		insert into board
+		(
+		user_no, menu_no, board_title, board_content,
+		create_dt, reply_yn, show_yn
+		)
+		value
+		(
+		#{userNo}, #{menuNo}, #{boardTitle}, #{boardContent},
+		now(), #{replyYn}, #{showYn}
+		)
+	</insert>
+	
+	<!-- 조회수 카운트를 별도의 update 또는 selectOne에서 처리 -->
+	<update id="updateHit" parameterType="int">
+		update board
+		set
+		board_hit = board_hit+1
+		where board_no = #{boardNo}
+	</update>
+	
+	<update id="updateBoard" parameterType="BoardDto">
+		update board
+		set
+		menu_no = #{menuNo},
+		board_title = #{boardTitle},
+		board_content = #{boardContent},
+		reply_yn = #{replyYn},
+		show_yn = #{showYn},
+		update_dt = now()
+		where board_no = #{boardNo}
+	</update>
+	
+	<delete id="deleteBoard" parameterType="int">
+		delete from board
+		where board_no = #{boardNo}
+	</delete>
 
 </mapper>
