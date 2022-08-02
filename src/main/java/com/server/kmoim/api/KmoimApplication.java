@@ -10,6 +10,7 @@ public class KmoimApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(KmoimApplication.class, args);
+		
 	}
 
 }
