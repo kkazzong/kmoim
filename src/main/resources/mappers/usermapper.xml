@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper>
+<mapper namespace="com.server.kmoim.api.mappers.UserMapper">
+	<insert id="join" parameterType="UserDto" >
+		INSERT INTO user(user_id, user_pass, user_name, user_nick, login_type, user_phone) VALUES(#{userId}, #{userPass}, #{userName}, #{userNick}, #{loginType}, #{userPhone})
+	</insert>
+	
+	<select id = "list" resultType="userDto">
+		select * from user
+	</select>
+	
+	<select id = "detail" parameterType="UserDto" resultType="userDto">
+		select * from user where user_no = #{userNo}
+	</select>
+	
+	<update id="update" parameterType="UserDto">
+		update user SET user_pass = #{userPass}, user_nick = #{userNick} , user_phone = #{userPhone}, update_dt = NOW() WHERE  user_no = #{userNo}
+	</update>
+	
+	<delete id = "delete" parameterType="UserDto">
+		DELETE FROM user WHERE user_no = #{userNo}
+	</delete>
+	
 
 </mapper>
