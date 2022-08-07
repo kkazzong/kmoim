@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.server.kmoim.api.mappers.ReplyMapper">
+<!-- 
+	<sql id="boardColumns">
+		reply_no, board_no, user_no, reply_content, create_dt,
+		update_dt, reply_file_name, reply_file_path, show_yn
+	</sql>	
+-->
+	
+	<select id="selectList" parameterType="int" resultType="ReplyDto">
+		select
+		u.user_nick, r.reply_content, r.create_dt, r.show_yn
+		from reply r
+		left join user u
+		using(user_no)
+		where board_no = #{boardNo}
+	</select>
+	
+	<insert id="createReply" parameterType="ReplyDto">
+		insert into reply
+		(
+		board_no, user_no, reply_content, create_dt, show_yn,
+		<if test="replyFileName != null and replyFileName != ''">
+			reply_file_name, reply_file_path
+		</if>
+		)
+		value
+		(
+		#{boardNo}, #{userNo}, #{replyContent}, now(), #{showYn},
+		<if test="replyFileName != null and replyFileName != ''">
+			#{replyFileName}, #{replyFilePath}
+		</if>
+		)
+	</insert>
+	
+	<update id="updateReply" parameterType="ReplyDto">
+		update reply
+		set
+		reply_content = #{replyContent},
+		show_yn = #{showYn},
+		update_dt = now(),
+		<if test="replyFileName != null and replyFileName != ''">
+			reply_file_name = #{replyFileName},
+			reply_file_path = #{replyFilePath}
+		</if>
+		where reply_no = #{replyNo}
+	</update>
+	
+	<delete id="deleteReply" parameterType="int">
+		delete from reply
+		where reply_no = #{replyNo}
+	</delete>
+
+</mapper>
